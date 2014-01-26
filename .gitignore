@@ -34,3 +34,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Mac Os X
+.DS_STORE
+.sublime-project
+.sublime-workspace

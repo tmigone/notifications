@@ -1,28 +1,25 @@
+from textParser import *
 from pushover import sendNotification
-
-def words(fileobj):
-    for line in fileobj:
-        for word in line.split():
-            yield word
+from os import listdir
+from os.path import isfile, join
 
 
+path = "/Users/tomi/Documents/notifications/samples"
+newfiles = [ f for f in listdir(path) if (isfile(join(path,f)) and f != ".DS_Store") ]
 
-foundwords = ''
+# newFiles.append("samples/cc.txt")
+# call to get new files 
+# newFiles = getNewFiles()
 
-with open("test.txt") as wordfile:
-    wordgen = words(wordfile)
-    for word in wordgen:
-        if 'establecimiento' in word:
-            foundwords+=next(wordgen, None)
+for fileName in newFiles:
+    service = ''
+    value = ''
 
-            for word in wordgen:
-                if 'por' in word:
-                    break
-                else:
-                    foundwords += ' '
-                    foundwords += word
-            break
-
-sendNotification(foundwords)
-print foundwords
-print len(foundwords)
+    service = getService(fileName, "establecimiento")
+    value = getValue(fileName)
+    
+    if service and value:
+        sendNotification(createMessage(service, value))
+    
+    print(service)
+    print(value)   

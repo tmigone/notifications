@@ -2,16 +2,17 @@ from textParser import *
 from pushover import sendNotification
 from os import listdir
 from os.path import isfile, join
+import shutil
 
 
-path = "/Users/tomi/Documents/notifications/samples"
-newfiles = [ f for f in listdir(path) if (isfile(join(path,f)) and f != ".DS_Store") ]
+path = "/home/ec2-user/Dropbox/IFTTT/Gmail - Visa"
+processedPath = "/home/ec2-user/notifications/processed"
+newFiles = [ f for f in listdir(path) if (isfile(join(path,f)) and f != ".DS_Store") ]
 
-# newFiles.append("samples/cc.txt")
-# call to get new files 
-# newFiles = getNewFiles()
 
 for fileName in newFiles:
+
+    fileName = path + "/" + fileName
     service = ''
     value = ''
 
@@ -20,6 +21,7 @@ for fileName in newFiles:
     
     if service and value:
         sendNotification(createMessage(service, value))
+        shutil.move(fileName,processedPath)
     
     print(service)
     print(value)   
